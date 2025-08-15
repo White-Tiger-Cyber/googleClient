@@ -1,4 +1,4 @@
-# drive-dwd
+# googleClient
 
 Interactive, read-only Google Drive shell for Google Workspace admins using **Domain-wide Delegation**.
 
