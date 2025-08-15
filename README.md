@@ -134,3 +134,29 @@ Add `bold_` in front (e.g., `bold_cyan`) to make it bold.
 - Delete the config file to reset to defaults.
 - Set `NO_COLOR` to disable colors, or `FORCE_COLOR` to enable colors even when stdout isn’t a TTY.
 
+## Future Features
+
+The following features are planned for future releases of `googleClient`:
+
+1. **`search` command enhancements**  
+   - Add recursive search (`-r`) to search subfolders instead of only the current folder.  
+   - Add recursion depth limit (`-L <n>`).  
+   - Add MIME type filter support (e.g., only PDFs) via additional query logic or CLI options.
+
+2. **`get` command enhancements**  
+   - Add recursive mode (`-r`) to allow downloading from folders.  
+   - Add recursion depth limit (`-L <n>`).  
+   - Enable folders in recursive mode (currently skipped).
+
+3. **Enhanced `help` command**  
+   - Basic `help` shows minimal usage for each command (no switches).  
+   - Display a note about `help <command>` for detailed usage.  
+   - `help <command>` displays extended help including all switches/options and examples.
+
+4. **`info` command enhancement**  
+   - Request and display `shortcutDetails` from Google Drive API so it shows the target ID, MIME type, and other relevant information for shortcuts.
+
+5. **`mimeType` display improvement in `print_table()`**  
+   - Add `short_mime_types` toggle in config to optionally strip the `application/` or `application/vnd.google-apps.` prefix for better readability.  
+   - When disabled, display full MIME type.  
+   - Widen or dynamically size the column so more of the type is visible without truncation.
