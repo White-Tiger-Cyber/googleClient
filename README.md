@@ -70,4 +70,67 @@ ls
 get *.pdf
 search projectX
 recent
+
+## Colorized Output
+
+`googleClient` colorizes CLI output based on file type for easier scanning.
+Colors are fully configurable via the tool’s config file.
+
+### Config File Location
+On first run, `googleClient` will automatically create a config file if it doesn’t exist.
+
+Default path:
+```
+~/.config/gC/colors.toml
+```
+
+Override the path by setting the `GC_CONFIG` environment variable to any file path you prefer.
+
+### Configuration Structure
+Example `colors.toml`:
+```toml
+[general]
+enabled = true
+
+[colors]
+folder = "bold_cyan"
+shortcut = "bright_magenta"
+google_doc = "bright_blue"
+google_sheet = "bright_green"
+google_slide = "bright_yellow"
+google_drawing = "yellow"
+pdf = "red"
+msoffice = "blue"
+image = "yellow"
+text = "bright_black"
+unknown = "white"
+
+# Add rules (precedence top to bottom)
+[[rule]]
+ext = ".docx"
+style = "blue"
+
+[[rule]]
+mime_prefix = "image/"
+style = "yellow"
+
+[[rule]]
+mime_exact = "application/pdf"
+style = "red"
+```
+
+### Supported Color Names
+You can use any of:
+```
+black, red, green, yellow, blue, magenta, cyan, white
+bright_black, bright_red, bright_green, bright_yellow, bright_blue, bright_magenta, bright_cyan, bright_white
+```
+Add `bold_` in front (e.g., `bold_cyan`) to make it bold.
+
+### Notes
+- Changes take effect the next time you run `googleClient`.
+- If the config file is missing or invalid, it will be created/recreated with defaults.
+- Delete the config file to reset to defaults.
+- Set `NO_COLOR` to disable colors, or `FORCE_COLOR` to enable colors even when stdout isn’t a TTY.
+
 ```
