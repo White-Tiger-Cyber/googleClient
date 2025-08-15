@@ -1,0 +1,21 @@
+# venvs
+.venv/
+venv/
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+# packaging
+*.egg-info/
+dist/
+build/
+# IDE
+.vscode/
+.idea/
+# OS junk
+.DS_Store
+Thumbs.db
+# local creds (never commit keys!)
+*.json
+*.pem
+*.p12
