@@ -69,7 +69,8 @@ gC --user alice@yourdomain.com
 ls
 get *.pdf
 search projectX
-recent```
+recent
+```
 
 ## Colorized Output
 
