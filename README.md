@@ -10,6 +10,7 @@ Interactive, read-only Google Drive shell for Google Workspace admins using **Do
 - `search`, `recent`, `info`, `perms`, `rawname`.
 - History (last 50 commands) per user.
 - Hardened secret loading from `SA_JSON_B64` / `SA_JSON` env or `--key` (0600).
+- Colorized output based on filetype. 
 
 ## Quick start
 
