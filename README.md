@@ -16,5 +16,5 @@ Interactive, read-only Google Drive shell for Google Workspace admins using **Do
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e .
 export SA_JSON_B64="$(base64 -w0 path/to/service_account.json)"
-drive-dwd --user someone@yourdomain.com
+gC --user someone@yourdomain.com
 ```
