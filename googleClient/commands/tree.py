@@ -2,6 +2,26 @@ from . import command
 from ..api import list_children
 from ..display import normalize_display_name, clamp_to_terminal
 from ..api import get_meta
+from ..colors import load_colorizer, ensure_default_config
+
+_colorizer = None
+
+def _color_item_name(item, text: str) -> str:
+    """Apply style for a Drive item to the already formatted text."""
+    global _colorizer
+    if _colorizer is None:
+        ensure_default_config()
+        _colorizer = load_colorizer()
+    style = _colorizer.style_for_item(item)
+    return _colorizer.colorize(text, style)
+
+def _render_name(item, raw_text: str) -> str:
+    """
+    Normalize and clamp plain text to terminal width, then colorize.
+    This ensures escape sequences don't break width calculation.
+    """
+    disp = clamp_to_terminal(normalize_display_name(raw_text), reserve=0)
+    return _color_item_name(item, disp)
 
 def _parse_args(args):
     """
@@ -100,9 +120,10 @@ def _resolve_shortcut_target(svc, shortcut_item):
     except Exception:
         return None, None
 
-def _print_line(prefix, is_last, text):
+def _print_line(prefix, is_last, rendered_text: str):
+    """Print a single tree line. `rendered_text` should already be formatted & colored."""
     branch = "└── " if is_last else "├── "
-    print(prefix + branch + clamp_to_terminal(normalize_display_name(text), reserve=0))
+    print(prefix + branch + rendered_text)
 
 def _next_prefix(prefix, is_last):
     return prefix + ("    " if is_last else "│   ")
@@ -125,19 +146,21 @@ def _walk(svc, start_item, depth_left, opts, prefix="", visited=None):
         if _is_shortcut(child):
             if not opts["follow_shortcuts"]:
                 # Show as leaf with '->' note, don't traverse
-                text = f"{child.get('name','(unnamed)')} -> shortcut"
-                _print_line(prefix, is_last, text)
+                txt = _render_name(child, f"{child.get('name','(unnamed)')} -> shortcut")
+                _print_line(prefix, is_last, txt)
                 continue
             # Follow the target, but avoid cycles
             target, t_mime = _resolve_shortcut_target(svc, child)
             if not target:
-                _print_line(prefix, is_last, f"{child.get('name','(unnamed)')} -> [broken shortcut]")
+                txt = _render_name(child, f"{child.get('name','(unnamed)')} -> [broken shortcut]")
+                _print_line(prefix, is_last, txt)
                 continue
             if visited is not None and target["id"] in visited:
-                _print_line(prefix, is_last, f"{child.get('name','(unnamed)')} -> {target.get('name','(target)')}  ↪ (seen)")
+                txt = _render_name(child, f"{child.get('name','(unnamed)')} -> {target.get('name','(target)')}  ↪ (seen)")
+                _print_line(prefix, is_last, txt)
                 continue
             # Print the shortcut name pointing to target
-            shown = f"{child.get('name','(unnamed)')} -> {target.get('name','(target)')}"
+            shown = _render_name(child, f"{child.get('name','(unnamed)')} -> {target.get('name','(target)')}")
             _print_line(prefix, is_last, shown)
             if t_mime == "application/vnd.google-apps.folder" and depth_left > 1:
                 if visited is not None:
@@ -146,7 +169,8 @@ def _walk(svc, start_item, depth_left, opts, prefix="", visited=None):
             continue
 
         # Normal items
-        _print_line(prefix, is_last, child.get("name", "(unnamed)"))
+        txt = _render_name(child, child.get("name", "(unnamed)"))
+        _print_line(prefix, is_last, txt)
 
         # Recurse into folders
         if _is_folder(child) and depth_left > 1:
@@ -177,6 +201,7 @@ def handle(ctx, args):
         # current working directory (folder)
         start = {"id": ctx.cwd["id"], "name": ctx.breadcrumb[-1], "mimeType": "application/vnd.google-apps.folder"}
 
-    print(normalize_display_name(start.get("name","(unnamed)")))
+    # Root line (colorized as folder)
+    print(_render_name(start, start.get("name","(unnamed)")))
     visited = set([start["id"]]) if opts["follow_shortcuts"] else None
     _walk(ctx.svc, start, opts["L"], opts, prefix="", visited=visited)
