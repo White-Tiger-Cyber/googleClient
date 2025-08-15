@@ -69,7 +69,7 @@ gC --user alice@yourdomain.com
 ls
 get *.pdf
 search projectX
-recent
+recent```
 
 ## Colorized Output
 
@@ -133,4 +133,3 @@ Add `bold_` in front (e.g., `bold_cyan`) to make it bold.
 - Delete the config file to reset to defaults.
 - Set `NO_COLOR` to disable colors, or `FORCE_COLOR` to enable colors even when stdout isn’t a TTY.
 
-```
