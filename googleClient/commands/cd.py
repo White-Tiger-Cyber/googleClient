@@ -23,7 +23,7 @@ def handle(ctx, args):
         return
     idx = int(args[0]) - 1
     if not ctx.items:
-        print("(no items in current view)"); return
+        print("(no items in current view; run ls to fill the view first)"); return
     if not (0 <= idx < len(ctx.items)):
         print(f"Index out of range (1-{len(ctx.items)})"); return
     target = ctx.items[idx]

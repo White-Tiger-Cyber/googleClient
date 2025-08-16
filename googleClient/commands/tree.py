@@ -3,6 +3,7 @@ from ..api import list_children
 from ..display import normalize_display_name, clamp_to_terminal
 from ..api import get_meta
 from ..colors import load_colorizer, ensure_default_config
+from ..utils import normalize_compact_flags
 
 _colorizer = None
 
@@ -182,6 +183,7 @@ def handle(ctx, args):
     Prints a directory/file tree like Linux `tree`.
     Does not alter ctx.cwd or ctx.items.
     """
+    args = normalize_compact_flags(args, int_flags=("-L",), assign_flags=())
     try:
         opts, maybe_idx = _parse_args(args)
     except ValueError as e:
@@ -190,7 +192,7 @@ def handle(ctx, args):
     # Figure out starting point
     if maybe_idx is not None:
         if not ctx.items:
-            print("(no items in current view)"); return
+            print("(no items in current view; run ls to fill the view first)"); return
         if not (0 <= maybe_idx < len(ctx.items)):
             print(f"Index out of range (1-{len(ctx.items)})"); return
         start = ctx.items[maybe_idx]

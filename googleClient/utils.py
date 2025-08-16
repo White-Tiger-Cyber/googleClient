@@ -1,4 +1,5 @@
 import os, re, hashlib
+import fnmatch
 
 def sanitize(name: str) -> str:
     return re.sub(r'[\\/:*?"<>|]+', "_", name).strip()
@@ -26,7 +27,6 @@ def parse_selection(sel: str, max_index: int):
             indices.add(n-1)
     return sorted(indices)
 
-import fnmatch
 def select_by_glob(pattern: str, items):
     pat = pattern.lower()
     idxs = []
@@ -35,3 +35,37 @@ def select_by_glob(pattern: str, items):
         if fnmatch.fnmatch(name.lower(), pat):
             idxs.append(i)
     return idxs
+
+def normalize_compact_flags(args, int_flags=("-L",), assign_flags=("--into",)):
+    """
+    Expand compact flags so '-L1' -> ['-L','1'] and '--into=/x' -> ['--into','/x'].
+    - int_flags: short flags that take an integer immediately after them (e.g., -L)
+    - assign_flags: long flags that may be passed as --flag=value
+    """
+    out = []
+    for a in args:
+        # Handle short int flags like -L1
+        matched = False
+        for f in int_flags:
+            if a.startswith(f) and a != f:
+                tail = a[len(f):]
+                if tail.isdigit():
+                    out.extend([f, tail])
+                    matched = True
+                    break
+        if matched:
+            continue
+
+        # Handle --flag=value
+        matched = False
+        for f in assign_flags:
+            prefix = f + "="
+            if a.startswith(prefix):
+                out.extend([f, a[len(prefix):]])
+                matched = True
+                break
+        if matched:
+            continue
+
+        out.append(a)
+    return out

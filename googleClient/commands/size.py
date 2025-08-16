@@ -1,6 +1,7 @@
 from . import command
 from ..api import list_children
 from ..api import get_meta
+from ..utils import normalize_compact_flags
 
 def _parse_args(args):
     """
@@ -179,6 +180,7 @@ def _fmt_bytes(n, unit=None):
 
 @command("size", "size [-L#] [-B|K|M|G] [--follow-shortcuts] [#]  - sum file sizes recursively")
 def handle(ctx, args):
+    args = normalize_compact_flags(args, int_flags=("-L",), assign_flags=())
     try:
         opts, idx = _parse_args(args)
     except ValueError as e:
@@ -187,7 +189,7 @@ def handle(ctx, args):
     # starting node
     if idx is not None:
         if not ctx.items:
-            print("(no items in current view)"); return
+            print("(no items in current view; run ls to fill the view first)"); return
         if not (0 <= idx < len(ctx.items)):
             print(f"Index out of range (1-{len(ctx.items)})"); return
         start = ctx.items[idx]

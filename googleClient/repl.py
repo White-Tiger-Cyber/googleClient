@@ -6,6 +6,7 @@ except ImportError:
 
 from .commands import REGISTRY
 from .display import print_table
+from .utils import normalize_compact_flags
 
 class Ctx:
     def __init__(self, svc, user_email):
@@ -72,6 +73,12 @@ def loop(ctx: Ctx):
             continue
         parts = line.split()
         cmd, args = parts[0], parts[1:]
+        # normalize args (handle flags like -L, --into, etc.)
+        args = normalize_compact_flags(
+            args,
+            int_flags=("-L",), 
+            assign_flags=("--into", "--mime", "--type")
+        )
         if cmd in ("quit","exit"):
             return
         if cmd == "help":

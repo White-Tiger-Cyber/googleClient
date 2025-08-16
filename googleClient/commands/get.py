@@ -8,7 +8,7 @@ def handle(ctx, args):
     if not args:
         print("Usage: get <#|#-#|#,#,...|glob>"); return
     if not ctx.items:
-        print("(no items in current view)"); return
+        print("(no items in current view; run ls to fill the view first)"); return
     sel = " ".join(args)
     if any(ch in sel for ch in "*?[]"):
         idx_list = select_by_glob(sel, ctx.items)
