@@ -211,6 +211,7 @@ The following commands are available in `googleClient`.
 - **`quit`**  
   Exit the CLI.## Future Features
 
+## Future Features
 The following features are planned for future releases of `googleClient`:
 
 1. **`search` command enhancements**  
