@@ -20,7 +20,12 @@ def list_children(svc, parent_id, page_token=None, query_extra=""):
 def get_meta(svc, file_id):
     return svc.files().get(
         fileId=file_id,
-        fields="id,name,mimeType,modifiedTime,size,owners(emailAddress,displayName),parents,permissions(emailAddress,role,displayName,domain),webViewLink,driveId",
+        fields=(
+            "id,name,mimeType,modifiedTime,size,webViewLink,driveId,parents,"
+            "owners(emailAddress,displayName),"
+            "permissions(emailAddress,role,displayName,domain),"
+            "shortcutDetails(targetId,targetMimeType,targetResourceKey)"
+        ),
         supportsAllDrives=True
     ).execute()
 

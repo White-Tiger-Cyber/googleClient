@@ -25,5 +25,10 @@ def handle(ctx, args):
     # Ask Drive for full metadata
     meta = get_meta(ctx.svc, target["id"])
 
+    # Optional: surface shortcut target at a glance
+    sd = meta.get("shortcutDetails")
+    if sd and sd.get("targetId"):
+        print(f"(shortcut → {sd['targetId']} : {sd.get('targetMimeType','?')})")
+
     # Pretty-print stable, readable JSON
     print(json.dumps(meta, indent=2, sort_keys=True))
