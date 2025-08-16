@@ -32,7 +32,7 @@ To prepare for this migration, we needed a way to **inspect ("poke around") all 
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
-pip install -e .
+pip install .
 export SA_JSON_B64="$(base64 -w0 path/to/service_account.json)"
 gC --user someone@yourdomain.com
 ```
