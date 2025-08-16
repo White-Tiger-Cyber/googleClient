@@ -1,6 +1,22 @@
 # googleClient
 
-Interactive, read-only Google Drive shell for Google Workspace admins using **Domain-wide Delegation**.
+## Purpose
+
+This project was created to solve a real-world need for a growing business.  
+One of our clients — a cloud-native compounding pharmacy — started small with just a few users on Google Workspace. Over time, they grew to more than 75 users, but their SOPs and critical documents ended up scattered across personal Google Drives.
+
+The request was to **centralize documents** in order to:
+- Improve corporate control and governance  
+- Enable DLP (Data Loss Prevention) policies  
+- Simplify off-boarding processes  
+- Improve monitoring of file usage and sharing
+
+To prepare for this migration, we needed a way to **inspect ("poke around") all user drives** without modifying anything:
+- No content changes  
+- No access time updates  
+- No permissions modified
+
+`googleClient` was built as a command-line tool using Google Workspace **Domain-Wide Delegation**. It allows administrators to explore user drives safely and efficiently, providing insight into the file landscape before making structural changes.
 
 ## Features
 - Impersonate any user (with DWD).
