@@ -160,3 +160,6 @@ The following features are planned for future releases of `googleClient`:
    - Add `short_mime_types` toggle in config to optionally strip the `application/` or `application/vnd.google-apps.` prefix for better readability.  
    - When disabled, display full MIME type.  
    - Widen or dynamically size the column so more of the type is visible without truncation.
+
+6. **`info` command prettify JSON output**  
+   - Format the JSON response from the `info` command so it is human-readable and nicely formatted, instead of showing a raw Python dict dump.
