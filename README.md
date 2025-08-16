@@ -88,65 +88,6 @@ search projectX
 recent
 ```
 
-## Commands
-
-The following commands are available in `googleClient`.  
-
-### Navigation
-- **`cd <#|..|/>`**  
-  Change directory by index, go up (`..`), or return to root (`/`).  
-
-- **`ls [#]`**  
-  List files/folders in the current directory.  
-  Optionally provide an index to list inside a folder without `cd`.
-
-- **`pwd`**  
-  Show the current path.  
-
-### File Operations
-- **`get <#|#-#|#,#,...|glob>`**  
-  Download one or more files by index, range, comma-separated list, or glob pattern.  
-  Examples:  
-  ```bash
-  get 5-9,11
-  get *.pdf
-  ```
-
-- **`mget *`**  
-  Download all files in the current list.  
-
-### Metadata & Permissions
-- **`info <#>`**  
-  Show metadata for a file/folder by index (pretty-printed JSON).  
-
-- **`perms <#>`**  
-  Show permissions for the file/folder by index.  
-
-- **`rawname <#>`**  
-  Show the raw underlying name (repr) for the file/folder.  
-
-### Search & Listing
-- **`search "<namepart>"`**  
-  Search current folder for items matching a substring.  
-
-- **`recent [hours]`**  
-  List files modified in the last N hours (default = 48).  
-
-- **`size [-L#] [-B|K|M|G] [--follow-shortcuts] [#]`**  
-  Recursively sum file sizes. Options:  
-  - `-L <n>` → recursion depth  
-  - `-B|K|M|G` → display units  
-  - `--follow-shortcuts` → resolve shortcut targets  
-
-- **`tree [-L#] [-d] [--follow-shortcuts] [#]`**  
-  Print directory tree with optional recursion limit (`-L`) or directory-only mode (`-d`).  
-
-### Misc
-- **`help [<command>]`**  
-  Show command list or detailed help for a single command.  
-
-- **`quit`**  
-  Exit the CLI.
 
 ## Colorized Output
 
@@ -205,12 +146,70 @@ bright_black, bright_red, bright_green, bright_yellow, bright_blue, bright_magen
 Add `bold_` in front (e.g., `bold_cyan`) to make it bold.
 
 ### Notes
-- Changes take effect the next time you run `googleClient`.
+- Changes take effect the next time you run `gC`.
 - If the config file is missing or invalid, it will be created/recreated with defaults.
 - Delete the config file to reset to defaults.
 - Set `NO_COLOR` to disable colors, or `FORCE_COLOR` to enable colors even when stdout isn’t a TTY.
 
-## Future Features
+## Commands
+
+The following commands are available in `googleClient`.  
+
+### Navigation
+- **`cd <#|..|/>`**  
+  Change directory by index, go up (`..`), or return to root (`/`).  
+
+- **`ls [#]`**  
+  List files/folders in the current directory.  
+  Optionally provide an index to list inside a folder without `cd`.
+
+- **`pwd`**  
+  Show the current path.  
+
+### File Operations
+- **`get <#|#-#|#,#,...|glob>`**  
+  Download one or more files by index, range, comma-separated list, or glob pattern.  
+  Examples:  
+  ```bash
+  get 5-9,11
+  get *.pdf
+  ```
+
+- **`mget *`**  
+  Download all files in the current list.  
+
+### Metadata & Permissions
+- **`info <#>`**  
+  Show metadata for a file/folder by index (pretty-printed JSON).  
+
+- **`perms <#>`**  
+  Show permissions for the file/folder by index.  
+
+- **`rawname <#>`**  
+  Show the raw underlying name (repr) for the file/folder.  
+
+### Search & Listing
+- **`search "<namepart>"`**  
+  Search current folder for items matching a substring.  
+
+- **`recent [hours]`**  
+  List files modified in the last N hours (default = 48).  
+
+- **`size [-L#] [-B|K|M|G] [--follow-shortcuts] [#]`**  
+  Recursively sum file sizes. Options:  
+  - `-L <n>` → recursion depth  
+  - `-B|K|M|G` → display units  
+  - `--follow-shortcuts` → resolve shortcut targets  
+
+- **`tree [-L#] [-d] [--follow-shortcuts] [#]`**  
+  Print directory tree with optional recursion limit (`-L`) or directory-only mode (`-d`).  
+
+### Misc
+- **`help [<command>]`**  
+  Show command list or detailed help for a single command.  
+
+- **`quit`**  
+  Exit the CLI.## Future Features
 
 The following features are planned for future releases of `googleClient`:
 
